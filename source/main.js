@@ -6,15 +6,15 @@ const { app, BrowserWindow } = require('electron')
 let win
 
 function createWindow() {
-	// Create the browser window.
-	win = new BrowserWindow({ width: 800, height: 600, darkTheme: true })
-
-	// and load the index.html of the app.
+	win = new BrowserWindow({ width: 800, height: 600, frame: false })
 	win.loadURL("https://kissanime.ru");
-
-	// Open the DevTools.
-	win.webContents.openDevTools()
 	win.maximize();
+
+	win.webContents.openDevTools()
+	win.webContents.on('new-window', function (e, url) {
+		console.log('new-window prevented', url);
+		e.preventDefault();
+	});
 
 	// Emitted when the window is closed.
 	win.on('closed', () => {
