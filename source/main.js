@@ -6,7 +6,8 @@ const { app, BrowserWindow } = require('electron')
 let win
 
 function createWindow() {
-	win = new BrowserWindow({ width: 800, height: 600, frame: false })
+	win = new BrowserWindow({ width: 800, height: 600 })
+	win.setMenu(null);
 	win.loadURL("https://kissanime.ru");
 	win.maximize();
 
