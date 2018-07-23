@@ -1,0 +1,23 @@
+{
+	"name": "kissani",
+	"version": "1.0.0",
+	"description": "kissani",
+	"main": "source/main.js",
+	"dependencies": {},
+	"devDependencies": {
+		"electron": "^2.0.5"
+	},
+	"scripts": {
+		"dev": "electron ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ColacX/Kissani.git"
+	},
+	"author": "ColacX",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/ColacX/Kissani/issues"
+	},
+	"homepage": "https://github.com/ColacX/Kissani#readme"
+}
