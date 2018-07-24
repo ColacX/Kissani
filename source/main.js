@@ -1,29 +1,39 @@
 // https://electronjs.org/docs/api/browser-window
-const { app, BrowserWindow } = require('electron')
+const { app, Menu, MenuItem, BrowserWindow } = require('electron');
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let win
+let browserWindow = null;
 
 function createWindow() {
-	win = new BrowserWindow({ width: 800, height: 600 })
-	win.setMenu(null);
-	win.loadURL("https://kissanime.ru");
-	win.maximize();
+	browserWindow = new BrowserWindow({ width: 800, height: 600 });
+	browserWindow.setMenu(null);
+	browserWindow.loadURL("https://kissanime.ru");
+	browserWindow.maximize();
 
-	win.webContents.openDevTools()
-	win.webContents.on('new-window', function (e, url) {
+	// Emitted when the window is closed.
+	browserWindow.on('closed', () => {
+		// Dereference the window object, usually you would store windows
+		// in an array if your app supports multi windows, this is the time
+		// when you should delete the corresponding element.
+		browserWindow = null
+	});
+
+	browserWindow.webContents.on('new-window', function (e, url) {
 		console.log('new-window prevented', url);
 		e.preventDefault();
 	});
 
-	// Emitted when the window is closed.
-	win.on('closed', () => {
-		// Dereference the window object, usually you would store windows
-		// in an array if your app supports multi windows, this is the time
-		// when you should delete the corresponding element.
-		win = null
-	})
+	browserWindow.webContents.on('context-menu', (e) => {
+		e.preventDefault()
+		const menu = new Menu();
+		const menuItem = new MenuItem({
+			label: 'Open Dev Tools',
+			click: () => {
+				browserWindow.openDevTools();
+			}
+		})
+		menu.append(menuItem);
+		menu.popup(browserWindow);
+	}, false)
 }
 
 // This method will be called when Electron has finished
@@ -43,7 +53,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
 	// On macOS it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
-	if (win === null) {
+	if (browserWindow === null) {
 		createWindow()
 	}
 })
